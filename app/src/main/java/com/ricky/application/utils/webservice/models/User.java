@@ -3,14 +3,6 @@ package com.ricky.application.utils.webservice.models;
 import com.google.gson.annotations.SerializedName;
 
 public class User {
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                '}';
-    }
 
     @SerializedName("id")
     private int id;
@@ -119,4 +111,13 @@ public class User {
 //    public void setReposUrl(String reposUrl) {
 //        this.reposUrl = reposUrl;
 //    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
+    }
 }

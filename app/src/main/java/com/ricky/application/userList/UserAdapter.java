@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ricky.application.R;
+import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
 
@@ -53,16 +54,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         holder.userId.setText(String.valueOf(user.getId()));
         holder.username.setText(user.getLogin());
 
-        Picasso.get().load(user.getAvatarUrl()).centerInside().resize(300, 300).into(holder.userPhoto);
+        Picasso.get().load(user.getAvatarUrl()).centerInside()
+                .resize(Constant.IMAGE_SIZE, Constant.IMAGE_SIZE)
+                .into(holder.userPhoto);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Context context = holder.itemView.getContext();
-//                Intent intent = new Intent(context, UserDetails.class);
-//                intent.putExtra("user", user);
-//                context.startActivity(intent);
             }
         });
 
