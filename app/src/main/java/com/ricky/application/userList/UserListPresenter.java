@@ -13,17 +13,17 @@ public class UserListPresenter extends BaseAbstractPresenter<UserListView>
 
     @Override
     public void onResume() {
-
+        view.onResume();
     }
 
     @Override
     public void onPause() {
-
+        view.onPause();
     }
 
     @Override
     public void onDestroy() {
-
+        view.onDestroy();
     }
 
     @Override
