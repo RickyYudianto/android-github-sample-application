@@ -1,12 +1,8 @@
 package com.ricky.application.userList;
 
-import android.util.Log;
-
 import com.ricky.application.base.BaseAbstractPresenter;
 import com.ricky.application.utils.webservice.ApiUtils;
 import com.ricky.application.utils.webservice.models.User;
-
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;

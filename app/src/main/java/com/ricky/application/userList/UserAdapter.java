@@ -1,7 +1,5 @@
 package com.ricky.application.userList;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ricky.application.R;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
