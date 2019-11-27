@@ -1,6 +1,6 @@
 package com.ricky.application.base;
 
-public abstract class BaseAbstractPresenter<V> implements IBasePresenter {
+public abstract class BaseAbstractPresenter<V> {
 
     protected V view;
 

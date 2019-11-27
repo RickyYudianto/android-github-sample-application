@@ -1,7 +1,10 @@
 package com.ricky.application.userList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ricky.application.R;
+import com.ricky.application.userDetails.UserDetailsView;
 import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
@@ -30,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_photo) CircleImageView userPhoto;
         @BindView(R.id.user_id) TextView userId;
-        @BindView(R.id.user_name) TextView username;
+        @BindView(R.id.user_login) TextView username;
 
 
         public MyViewHolder(View view) {
@@ -63,7 +67,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         Resources res = context.getResources();
 
         holder.userId.setText(String.format(res.getString(R.string.user_id), String.valueOf(user.getId())));
-        holder.username.setText(String.format(res.getString(R.string.user_name), user.getLogin()));
+        holder.username.setText(String.format(res.getString(R.string.user_login), user.getLogin()));
 
         Picasso.get().load(user.getAvatarUrl()).centerInside()
                 .resize(Constant.IMAGE_SIZE, Constant.IMAGE_SIZE)
@@ -73,6 +77,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Context context = holder.itemView.getContext();
+                Intent intent = new Intent(context, UserDetailsView.class);
+                intent.putExtra(Constant.LOGIN_KEY, user.getLogin());
+                context.startActivity(intent);
             }
         });
 

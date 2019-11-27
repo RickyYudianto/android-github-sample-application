@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/user_list_container"
     android:padding="@dimen/normal_padding"
-    tools:context="com.ricky.application.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.ricky.application.userList.UserListView"
+    tools:showIn="@layout/user_list_activity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_list_recycle_view"

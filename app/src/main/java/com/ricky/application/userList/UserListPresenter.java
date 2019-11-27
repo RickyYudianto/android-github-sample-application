@@ -18,21 +18,6 @@ public class UserListPresenter extends BaseAbstractPresenter<UserListView>
     private List<User> userList = new ArrayList<>();
 
     @Override
-    public void onResume() {
-        view.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        view.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        view.onDestroy();
-    }
-
-    @Override
     public void loadUserList(int lastId) {
         ApiUtils.getAPIService().getUserList(lastId, "63b533fa84f0755efb87", "c7e5cba44e1878f433d5f3f14009bcff3e02a4fc").enqueue(new Callback<User[]>() {
             @Override
