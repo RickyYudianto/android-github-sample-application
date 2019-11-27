@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ricky.application.R;
 import com.ricky.application.utils.Constant;
@@ -26,10 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserDetailsView extends AppCompatActivity implements IUserDetailsPresentation.view {
+public class UserDetailsView extends AppCompatActivity implements IUserDetailsPresentation.view, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.progress_relative_layout) RelativeLayout progressRelativeLayout;
-    @BindView(R.id.details_relative_layout) RelativeLayout detailsRelativeLayout;
+    @BindView(R.id.details_refresh_layout) SwipeRefreshLayout detailsRefreshLayout;
     @BindView(R.id.user_repo_recycle_view) RecyclerView recyclerView;
     @BindView(R.id.user_photo) CircleImageView userPhoto;
     @BindView(R.id.user_login) TextView username;
@@ -42,6 +43,7 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
     private LinearLayoutManager mLayoutManager;
     private RepositoryAdapter adapter;
     private UserDetailsPresenter userDetailsPresenter = new UserDetailsPresenter();
+    private Intent intent;
 
     private boolean loadData = true;
     private boolean loadRepo = true;
@@ -55,16 +57,17 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         ButterKnife.bind(this);
         userDetailsPresenter.setView(this);
 
-        progressRelativeLayout.setVisibility(View.VISIBLE);
-        detailsRelativeLayout.setVisibility(View.INVISIBLE);
+        setVisibilityLayout();
         initRecyclerView();
+        detailsRefreshLayout.setOnRefreshListener(this);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         userDetailsPresenter.loadUserDetails(intent.getStringExtra(Constant.LOGIN_KEY));
     }
 
     @Override
     public void onLoadUserDetails(User user) {
+        loadData = false;
         Resources res = getResources();
 
         Picasso.get().load(user.getAvatarUrl()).centerInside()
@@ -77,7 +80,6 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         company.setText(String.format(res.getString(R.string.user_company), user.getCompany() == null? Constant.EMPTY_STRING : user.getCompany()));
         followers.setText(String.format(res.getString(R.string.user_followers), user.getFollowers()));
         following.setText(String.format(res.getString(R.string.user_following), user.getFollowing()));
-
     }
 
     @Override
@@ -89,9 +91,7 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
             adapter.notifyDataSetChanged();
 
             loadRepo = false;
-
-            progressRelativeLayout.setVisibility(View.GONE);
-            detailsRelativeLayout.setVisibility(View.VISIBLE);
+            setVisibilityLayout();
         }, Constant.LOAD_DATA_DELAY);
     }
 
@@ -116,5 +116,26 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
+    }
+
+    @Override
+    public void onRefresh() {
+        userDetailsPresenter.loadUserDetails(intent.getStringExtra(Constant.LOGIN_KEY));
+        userDetailsPresenter.loadUserRepos(intent.getStringExtra(Constant.LOGIN_KEY));
+        loadData = true;
+        loadRepo = true;
+
+        setVisibilityLayout();
+        detailsRefreshLayout.setRefreshing(false);
+    }
+
+    private void setVisibilityLayout() {
+        if (loadData || loadRepo) {
+            progressRelativeLayout.setVisibility(View.VISIBLE);
+            detailsRefreshLayout.setVisibility(View.INVISIBLE);
+        } else {
+            progressRelativeLayout.setVisibility(View.GONE);
+            detailsRefreshLayout.setVisibility(View.VISIBLE);
+        }
     }
 }

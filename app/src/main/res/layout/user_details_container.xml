@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_gravity="center">
 
 
@@ -21,21 +22,27 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/details_relative_layout"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/details_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <include android:id="@+id/user_details_layout"
-            layout="@layout/user_details_layout" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/user_repo_recycle_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_details_layout"
-            tools:listitem="@layout/user_repos_layout" />
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
+            <include android:id="@+id/user_details_layout"
+                layout="@layout/user_details_layout" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/user_repo_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_details_layout"
+                tools:listitem="@layout/user_repos_layout" />
+
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.ricky.application.userList;
 
 import com.ricky.application.base.BaseAbstractPresenter;
+import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.ApiUtils;
 import com.ricky.application.utils.webservice.models.User;
 
@@ -19,7 +20,7 @@ public class UserListPresenter extends BaseAbstractPresenter<UserListView>
 
     @Override
     public void loadUserList(int lastId) {
-        ApiUtils.getAPIService().getUserList(lastId, "63b533fa84f0755efb87", "c7e5cba44e1878f433d5f3f14009bcff3e02a4fc").enqueue(new Callback<User[]>() {
+        ApiUtils.getAPIService().getUserList(lastId, Constant.CLIENT_ID, Constant.CLIENT_SECRET).enqueue(new Callback<User[]>() {
             @Override
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {

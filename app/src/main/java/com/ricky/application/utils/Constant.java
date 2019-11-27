@@ -16,4 +16,7 @@ public final class Constant {
 
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String SIMPLE_DATE_TIME_FORMAT = "yy-MM-dd HH:mm";
+
+    public static final String CLIENT_ID = "";
+    public static final String CLIENT_SECRET = "";
 }

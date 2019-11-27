@@ -70,15 +70,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                 .into(holder.userPhoto);
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.itemView.setOnClickListener(view -> {
 
-                Context context = holder.itemView.getContext();
-                Intent intent = new Intent(context, UserDetailsView.class);
-                intent.putExtra(Constant.LOGIN_KEY, user.getLogin());
-                context.startActivity(intent);
-            }
+            Context context = holder.itemView.getContext();
+            Intent intent = new Intent(context, UserDetailsView.class);
+            intent.putExtra(Constant.LOGIN_KEY, user.getLogin());
+            context.startActivity(intent);
         });
 
 
