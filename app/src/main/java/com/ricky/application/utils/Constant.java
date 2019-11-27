@@ -18,6 +18,6 @@ public final class Constant {
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String SIMPLE_DATE_TIME_FORMAT = "yy-MM-dd HH:mm";
 
-    public static final String CLIENT_ID = "63b533fa84f0755efb87";
-    public static final String CLIENT_SECRET = "c7e5cba44e1878f433d5f3f14009bcff3e02a4fc";
+    public static final String CLIENT_ID = "xxx";
+    public static final String CLIENT_SECRET = "yyy";
 }
