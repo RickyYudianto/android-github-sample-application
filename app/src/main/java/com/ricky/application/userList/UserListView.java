@@ -25,7 +25,7 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
     private UserAdapter adapter;
     private UserListPresenter userListPresenter = new UserListPresenter();
 
-    private boolean loadData = false;
+    private boolean loadData = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +68,6 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
-
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {

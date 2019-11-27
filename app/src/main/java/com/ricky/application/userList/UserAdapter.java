@@ -16,7 +16,6 @@ import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,11 +59,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        List<User> temp = new ArrayList<>(userList);
-        final User user = temp.get(position);
+        final User user = userList.get(position);
         Resources res = context.getResources();
 
-        holder.userId.setText(String.format(res.getString(R.string.user_id), String.valueOf(user.getId())));
+        holder.userId.setText(String.format(res.getString(R.string.user_id), user.getId()));
         holder.username.setText(String.format(res.getString(R.string.user_login), user.getLogin()));
 
         Picasso.get().load(user.getAvatarUrl()).centerInside()

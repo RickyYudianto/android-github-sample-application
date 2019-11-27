@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">application</string>
+    <string name="user_list_activity_name">User List</string>
+    <string name="user_details_activity_name">User Detail</string>
 
-    <string name="user_id">User ID: %1$s</string>
+    <string name="user_id">User ID: %1$d</string>
     <string name="user_login">Username: %1$s</string>
     <string name="user_name">Name: %1$s</string>
     <string name="user_location">Location: %1$s</string>
     <string name="user_company">Company: %1$s</string>
-    <string name="user_followers">Followers: %1$s</string>
-    <string name="user_following">Following: %1$s</string>
+    <string name="user_followers">Followers: %1$d</string>
+    <string name="user_following">Following: %1$d</string>
+
+    <string name="repo_star">Star: %1$d</string>
+    <string name="repo_watcher">Watcher: %1$d</string>
 </resources>

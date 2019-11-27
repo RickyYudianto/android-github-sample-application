@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".userList.UserListView">
+        <activity android:name=".userList.UserListView"
+            android:label="@string/user_list_activity_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +23,7 @@
 
         <activity
             android:name=".userDetails.UserDetailsView"
+            android:label="@string/user_details_activity_name"
             android:parentActivityName=".userList.UserListView">
         </activity>
     </application>

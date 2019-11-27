@@ -15,11 +15,19 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/user_list_layout" />
 
-    <ProgressBar
-        android:id="@+id/user_list_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_gravity="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+
+        <ProgressBar
+            android:id="@+id/user_list_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin" />
+
+    </LinearLayout>
 
 </LinearLayout>
