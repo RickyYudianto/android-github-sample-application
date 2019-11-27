@@ -1,9 +1,10 @@
 package com.ricky.application.userList;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,15 +14,21 @@ import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    private User[] userList;
+    private Context context;
+    private List<User> userList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.user_photo) ImageView userPhoto;
+        @BindView(R.id.user_photo) CircleImageView userPhoto;
         @BindView(R.id.user_id) TextView userId;
         @BindView(R.id.user_name) TextView username;
 
@@ -34,9 +41,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         }
     }
 
-
-    public UserAdapter(User[] userList) {
+    public UserAdapter(Context context, List<User> userList) {
+        this.context = context;
         this.userList = userList;
+
+        Collections.sort(userList, (o1, o2) -> o1.getId() - o2.getId());
     }
 
     @Override
@@ -49,10 +58,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final User user = userList[position];
+        List<User> temp = new ArrayList<>(userList);
+        final User user = temp.get(position);
+        Resources res = context.getResources();
 
-        holder.userId.setText(String.valueOf(user.getId()));
-        holder.username.setText(user.getLogin());
+        holder.userId.setText(String.format(res.getString(R.string.user_id), String.valueOf(user.getId())));
+        holder.username.setText(String.format(res.getString(R.string.user_name), user.getLogin()));
 
         Picasso.get().load(user.getAvatarUrl()).centerInside()
                 .resize(Constant.IMAGE_SIZE, Constant.IMAGE_SIZE)
@@ -70,6 +81,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return userList.length;
+        return userList.size();
+    }
+
+    public User getLastUser() {
+        return userList.get(userList.size() - 1);
     }
 }

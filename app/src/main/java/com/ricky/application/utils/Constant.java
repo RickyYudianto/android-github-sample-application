@@ -6,4 +6,5 @@ public final class Constant {
     public static final String GET_ALL_USERS_ENDPOINT = "/users";
 
     public static final int IMAGE_SIZE = 300;
+    public static final int LOAD_DATA_DELAY = 2000;
 }
