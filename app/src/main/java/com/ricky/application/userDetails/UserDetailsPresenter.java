@@ -1,14 +1,8 @@
 package com.ricky.application.userDetails;
 
 import com.ricky.application.base.BaseAbstractPresenter;
-import com.ricky.application.userList.IUserListPresentation;
-import com.ricky.application.userList.UserListView;
 import com.ricky.application.utils.webservice.ApiUtils;
 import com.ricky.application.utils.webservice.models.User;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

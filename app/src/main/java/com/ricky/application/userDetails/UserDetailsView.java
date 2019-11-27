@@ -3,29 +3,16 @@ package com.ricky.application.userDetails;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.ricky.application.R;
-import com.ricky.application.userList.IUserListPresentation;
-import com.ricky.application.userList.UserAdapter;
-import com.ricky.application.userList.UserListPresenter;
 import com.ricky.application.utils.Constant;
 import com.ricky.application.utils.webservice.models.User;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
