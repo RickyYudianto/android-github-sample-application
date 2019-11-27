@@ -26,7 +26,6 @@ public class UserDetailsPresenter extends BaseAbstractPresenter<UserDetailsView>
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     view.onLoadUserDetails(response.body());
-                    loadUserRepos(login);
                 } else {
                     view.onErrorLoadUser(response.message());
                 }
@@ -40,13 +39,17 @@ public class UserDetailsPresenter extends BaseAbstractPresenter<UserDetailsView>
     }
 
     @Override
-    public void loadUserRepos(String login) {
-        ApiUtils.getAPIService().getUserRepos(login, Constant.CLIENT_ID, Constant.CLIENT_SECRET).enqueue(new Callback<Repository[]>() {
+    public void loadUserRepos(String login, int page, boolean refreshAll) {
+        ApiUtils.getAPIService().getUserRepos(login, page, Constant.CLIENT_ID, Constant.CLIENT_SECRET).enqueue(new Callback<Repository[]>() {
             @Override
             public void onResponse(Call<Repository[]> call, Response<Repository[]> response) {
                 if (response.isSuccessful()) {
-                    repositoryList.clear();
-                    repositoryList.addAll(Arrays.asList(response.body()));
+                    Repository[] responses = response.body();
+                    if(refreshAll) repositoryList.clear();
+
+                    repositoryList.addAll(Arrays.asList(responses));
+
+                    if(responses.length < Constant.MAX_SIZE_PER_PAGE) view.allReposLoaded();
                     view.onLoadUserRepos(repositoryList);
                 } else {
                     view.onErrorLoadRepositoryList(response.message());

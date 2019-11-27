@@ -26,6 +26,8 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
     private UserListPresenter userListPresenter = new UserListPresenter();
 
     private boolean loadData = true;
+    private boolean allDataIsLoaded = false;
+    private int lastPositionRecyclerView = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +52,14 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
             adapter.notifyDataSetChanged();
 
             loadData = false;
+
+            mLayoutManager.scrollToPosition(lastPositionRecyclerView);
         }, Constant.LOAD_DATA_DELAY);
+    }
+
+    @Override
+    public void allUsersLoaded() {
+        allDataIsLoaded = true;
     }
 
     @Override
@@ -74,7 +83,8 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                if (!loadData && mLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount() - 1) {
+                if (!allDataIsLoaded && !loadData && mLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount() - 1) {
+                    lastPositionRecyclerView = mLayoutManager.findFirstVisibleItemPosition();
                     userListPresenter.loadUserList(adapter.getLastUser().getId());
                     loadData = true;
                 }

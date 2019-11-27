@@ -8,6 +8,7 @@ public interface IUserListPresentation {
 
     interface view {
         void onLoadUserList(List<User> userList);
+        void allUsersLoaded();
         void onErrorLoadUserList(String message);
     }
 

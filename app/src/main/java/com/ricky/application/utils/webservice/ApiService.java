@@ -23,6 +23,7 @@ public interface ApiService {
 
     @GET(Constant.USERS_ENDPOINT + Constant.SLASH_DELIMITER + "{login}" + Constant.REPOS_ENDPOINT)
     Call<Repository[]> getUserRepos(@Path("login") String login
+            , @Query("page") int pagination
             , @Query("client_id") String clientId
             , @Query("client_secret") String clientSecret);
 }

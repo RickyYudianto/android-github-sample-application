@@ -43,10 +43,15 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
     private LinearLayoutManager mLayoutManager;
     private RepositoryAdapter adapter;
     private UserDetailsPresenter userDetailsPresenter = new UserDetailsPresenter();
-    private Intent intent;
+    private String userLogin;
 
     private boolean loadData = true;
     private boolean loadRepo = true;
+    private boolean loadAll = true;
+    private boolean allDataIsLoaded = false;
+
+    private int pageRepo = 1;
+    private int lastPositionRecyclerView = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +66,9 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         initRecyclerView();
         detailsRefreshLayout.setOnRefreshListener(this);
 
-        intent = getIntent();
-        userDetailsPresenter.loadUserDetails(intent.getStringExtra(Constant.LOGIN_KEY));
+        Intent intent = getIntent();
+        userLogin = intent.getStringExtra(Constant.LOGIN_KEY);
+        userDetailsPresenter.loadUserDetails(userLogin);
     }
 
     @Override
@@ -80,6 +86,8 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         company.setText(String.format(res.getString(R.string.user_company), user.getCompany() == null? Constant.EMPTY_STRING : user.getCompany()));
         followers.setText(String.format(res.getString(R.string.user_followers), user.getFollowers()));
         following.setText(String.format(res.getString(R.string.user_following), user.getFollowing()));
+
+        userDetailsPresenter.loadUserRepos(userLogin, pageRepo, false);
     }
 
     @Override
@@ -92,6 +100,8 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
 
             loadRepo = false;
             setVisibilityLayout();
+            loadAll = false;
+            mLayoutManager.scrollToPosition(lastPositionRecyclerView);
         }, Constant.LOAD_DATA_DELAY);
     }
 
@@ -107,6 +117,11 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         loadRepo = false;
     }
 
+    @Override
+    public void allReposLoaded() {
+        allDataIsLoaded = true;
+    }
+
     @Override public void onDestroy() {
         super.onDestroy();
     }
@@ -116,26 +131,46 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(null);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if (!allDataIsLoaded && !loadRepo && mLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount() - 1) {
+                    lastPositionRecyclerView = mLayoutManager.findFirstVisibleItemPosition();
+                    userDetailsPresenter.loadUserRepos(userLogin, ++pageRepo, false);
+                    loadRepo = true;
+                    loadAll = false;
+                }
+            }
+        });
     }
 
     @Override
     public void onRefresh() {
-        userDetailsPresenter.loadUserDetails(intent.getStringExtra(Constant.LOGIN_KEY));
-        userDetailsPresenter.loadUserRepos(intent.getStringExtra(Constant.LOGIN_KEY));
+        pageRepo = 1;
+        lastPositionRecyclerView = 0;
+        userDetailsPresenter.loadUserDetails(userLogin);
+        userDetailsPresenter.loadUserRepos(userLogin, pageRepo, true);
         loadData = true;
         loadRepo = true;
+        loadAll = true;
+        allDataIsLoaded = false;
 
         setVisibilityLayout();
         detailsRefreshLayout.setRefreshing(false);
     }
 
     private void setVisibilityLayout() {
-        if (loadData || loadRepo) {
-            progressRelativeLayout.setVisibility(View.VISIBLE);
-            detailsRefreshLayout.setVisibility(View.INVISIBLE);
-        } else {
-            progressRelativeLayout.setVisibility(View.GONE);
-            detailsRefreshLayout.setVisibility(View.VISIBLE);
+        if (loadAll) {
+            if (loadData || loadRepo) {
+                progressRelativeLayout.setVisibility(View.VISIBLE);
+                detailsRefreshLayout.setVisibility(View.INVISIBLE);
+            } else {
+                progressRelativeLayout.setVisibility(View.GONE);
+                detailsRefreshLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

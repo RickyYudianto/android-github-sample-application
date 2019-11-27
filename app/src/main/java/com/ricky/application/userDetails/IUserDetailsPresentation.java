@@ -12,11 +12,12 @@ public interface IUserDetailsPresentation {
         void onLoadUserRepos(List<Repository> repositoryList);
         void onErrorLoadUser(String message);
         void onErrorLoadRepositoryList(String message);
+        void allReposLoaded();
     }
 
     interface presenter {
         void loadUserDetails(String login);
-        void loadUserRepos(String login);
+        void loadUserRepos(String login, int page, boolean refreshAll);
     }
 
 }

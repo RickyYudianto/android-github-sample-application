@@ -24,7 +24,10 @@ public class UserListPresenter extends BaseAbstractPresenter<UserListView>
             @Override
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
-                    userList.addAll(Arrays.asList(response.body()));
+                    User[] responses = response.body();
+                    userList.addAll(Arrays.asList(responses));
+
+                    if(responses.length < Constant.MAX_SIZE_PER_PAGE) view.allUsersLoaded();
                     view.onLoadUserList(userList);
                 } else {
                     view.onErrorLoadUserList(response.message());
