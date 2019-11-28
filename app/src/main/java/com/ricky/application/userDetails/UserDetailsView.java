@@ -29,6 +29,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserDetailsView extends AppCompatActivity implements IUserDetailsPresentation.view, SwipeRefreshLayout.OnRefreshListener {
 
+    @BindView(R.id.user_repo_error) TextView repoErrorText;
+    @BindView(R.id.user_details_error) TextView detailsErrorText;
     @BindView(R.id.progress_relative_layout) RelativeLayout progressRelativeLayout;
     @BindView(R.id.details_refresh_layout) SwipeRefreshLayout detailsRefreshLayout;
     @BindView(R.id.user_repo_recycle_view) RecyclerView recyclerView;
@@ -107,13 +109,27 @@ public class UserDetailsView extends AppCompatActivity implements IUserDetailsPr
 
     @Override
     public void onErrorLoadUser(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        detailsErrorText.setText(message);
+
+        progressRelativeLayout.setVisibility(View.GONE);
+        detailsErrorText.setVisibility(View.VISIBLE);
+
         loadData = false;
     }
 
     @Override
-    public void onErrorLoadRepositoryList(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void onErrorLoadRepositoryList(List<Repository> repositoryList, String message) {
+        if (repositoryList.size() > 0) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        } else {
+            repoErrorText.setText(message);
+
+            progressRelativeLayout.setVisibility(View.GONE);
+            detailsRefreshLayout.setVisibility(View.VISIBLE);
+            repoErrorText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
         loadRepo = false;
     }
 

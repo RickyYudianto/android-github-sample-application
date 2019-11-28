@@ -30,13 +30,13 @@ public class UserListPresenter extends BaseAbstractPresenter<UserListView>
                     if(responses.length < Constant.MAX_SIZE_PER_PAGE) view.allUsersLoaded();
                     view.onLoadUserList(userList);
                 } else {
-                    view.onErrorLoadUserList(response.message());
+                    view.onErrorLoadUserList(userList, response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<User[]> call, Throwable t) {
-                view.onErrorLoadUserList(t.getMessage());
+                view.onErrorLoadUserList(userList, t.getMessage());
             }
         });
     }

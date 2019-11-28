@@ -52,13 +52,13 @@ public class UserDetailsPresenter extends BaseAbstractPresenter<UserDetailsView>
                     if(responses.length < Constant.MAX_SIZE_PER_PAGE) view.allReposLoaded();
                     view.onLoadUserRepos(repositoryList);
                 } else {
-                    view.onErrorLoadRepositoryList(response.message());
+                    view.onErrorLoadRepositoryList(repositoryList, response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Repository[]> call, Throwable t) {
-                view.onErrorLoadRepositoryList(t.getMessage());
+                view.onErrorLoadRepositoryList(repositoryList, t.getMessage());
             }
         });
     }

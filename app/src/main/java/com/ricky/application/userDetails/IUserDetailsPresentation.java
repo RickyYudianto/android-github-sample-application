@@ -11,7 +11,7 @@ public interface IUserDetailsPresentation {
         void onLoadUserDetails(User user);
         void onLoadUserRepos(List<Repository> repositoryList);
         void onErrorLoadUser(String message);
-        void onErrorLoadRepositoryList(String message);
+        void onErrorLoadRepositoryList(List<Repository> repositoryList, String message);
         void allReposLoaded();
     }
 

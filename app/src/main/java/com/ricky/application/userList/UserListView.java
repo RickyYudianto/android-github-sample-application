@@ -2,6 +2,8 @@ package com.ricky.application.userList;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class UserListView extends AppCompatActivity implements IUserListPresentation.view {
+    @BindView(R.id.user_list_error) TextView errorText;
     @BindView(R.id.user_list_recycle_view) RecyclerView recyclerView;
 
     private LinearLayoutManager mLayoutManager;
@@ -53,6 +56,7 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
 
             loadData = false;
 
+            errorText.setVisibility(View.GONE);
             mLayoutManager.scrollToPosition(lastPositionRecyclerView);
         }, Constant.LOAD_DATA_DELAY);
     }
@@ -63,8 +67,13 @@ public class UserListView extends AppCompatActivity implements IUserListPresenta
     }
 
     @Override
-    public void onErrorLoadUserList(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void onErrorLoadUserList(List<User> userList, String message) {
+        if (userList.size() > 0) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        } else {
+            errorText.setText(message);
+            errorText.setVisibility(View.VISIBLE);
+        }
         loadData = false;
     }
 

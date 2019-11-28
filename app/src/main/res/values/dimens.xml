@@ -6,6 +6,7 @@
     <dimen name="border_width">2dp</dimen>
     <dimen name="grid_width">0dp</dimen>
 
+    <dimen name="large_font_size">24sp</dimen>
     <dimen name="normal_font_size">16sp</dimen>
     <dimen name="small_font_size">14sp</dimen>
 </resources>
